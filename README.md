@@ -10,15 +10,22 @@ Una calculadora inspirada en la de Windows, hecha con JavaFX + CSS.
 - Tecla de retroceso (`<-`).
 - botón de porcentaje (`%`).
 - Lógica desacoplada con clases externas.
-- Mostrar historial completo.
+
 
 ## 🔧 Pendientes por hacer
  
 - [ ] Manejar más operaciones encadenadas.
-- [ ] Corregir historial de operaciones
 - [ ] Validar división por cero.
+- [ ] Desarrollar historial
 - [ ] Agregar animaciones o mejoras visuales con CSS.
 - [ ] Modificar código para que sea legible
+- [ ] Evitar que se puedan agregar dígitos directamente después de presionar "=".
+- [ ] El comportamiento debe reiniciar la entrada si se empieza a digitar un nuevo número.
+
+## 🐞 Correcciones
+
+- [ ] El botón para borrar el último dígito no funcionaba correctamente cuando se ingresaba un signo antes.
+
 
 ## 🚀 Cómo correr el proyecto
 

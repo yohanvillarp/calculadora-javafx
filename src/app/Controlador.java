@@ -18,28 +18,34 @@ public class Controlador {
     @FXML
     private Button btnPorcentaje;
 
-    private double valorAnterior=0, valorActual=0;
-    private String operadorBinario="", operadorUnario="";
-    private boolean hayOperacionBinaria, banderaOperacionBinaria, signoBinarioActivo;
+    private double valorAnterior, valorActual, ultimoResultado;
+    private String operadorBinario, operadorUnario;
+    private boolean hayOperacionBinaria, banderaOperacionBinaria,signoBinarioActivo;
     private boolean hayOperacionUnaria;
+
+    //constantes
+    private static final String CERO = "0";
 
 
     @FXML
     public void initialize(){
         btnPorcentaje.setText("%");
+        valorAnterior=0;
+        valorActual=0;
+        operadorBinario="";
+        operadorUnario="";
     }
 
     //CE
     @FXML
     public void clearEntry(){
-        pantalla.setText("0");
+        pantalla.setText(CERO);
     }
 
     //C
     @FXML
     public void clear(){
-        pantalla.setText("0");
-        lblHistorial.setText("");
+        clearEntry();
         valorActual = 0;
         valorAnterior = 0;
         operadorBinario = "";
@@ -49,88 +55,81 @@ public class Controlador {
         signoBinarioActivo =false;
     }
 
+
+    private String obtenerTextoDelBoton(ActionEvent e){
+        return ((Button) e.getSource()).getText();
+    }
+
+
     // Al precionar un signo
     @FXML
     private void definirOperacion(ActionEvent e){
+        String operador = obtenerTextoDelBoton(e);
 
-        Button btn = (Button) e.getSource();
-        if(Operacion.isOperadorBinario(btn.getText())){
-            operadorUnario = btn.getText();
-
-
+        //operador unario
+        if(Operacion.isOperadorUnario(operador)){
+            operadorUnario = operador;
             if(valorAnterior!=0) calcularResultado();
             else clear();
-        }else{
-            //si se ingreso un signo antes
-            if(signoBinarioActivo) lblHistorial.setText(lblHistorial.getText().substring(0,lblHistorial.getText().length()-1));
-            //si se ingreso un número antes
-            else calcularResultado();
-            operadorBinario = btn.getText();
+        }else {
+            calcularResultado();
+            operadorBinario = operador;
             signoBinarioActivo = true;
             hayOperacionBinaria = true;
             banderaOperacionBinaria = true;
-            lblHistorial.setText(lblHistorial.getText()+ operadorBinario);
         }
+    }
+
+    @FXML
+    private void digitar(ActionEvent e) {
+        if (banderaOperacionBinaria) {
+            valorAnterior = Double.parseDouble(pantalla.getText());
+            pantalla.setText(CERO);
+            banderaOperacionBinaria = false;
+        }
+        String digito = obtenerTextoDelBoton(e);
+        String txtPantalla = pantalla.getText();
+        if (digito.equals(".")) {
+            if (puedeAgregarPunto())
+                pantalla.setText(txtPantalla + ".");
+        } else {
+            if (esCeroInicial()) pantalla.setText(digito);
+            else pantalla.setText(txtPantalla + digito);
+        }
+        signoBinarioActivo = false;
     }
 
     @FXML
     private void calcularResultado(){
         valorActual = Double.parseDouble(pantalla.getText());
+
+        //en caso de operador binario
         if(operadorUnario.isEmpty()){
             if(hayOperacionBinaria){
                 Operacion operacion = new Operacion(valorAnterior, operadorBinario, valorActual);
-                pantalla.setText(""+operacion.calcular());
+                ultimoResultado = Double.parseDouble(operacion.calcular());
+                valorAnterior = ultimoResultado;
+                valorActual = 0;
+                pantalla.setText(operacion.calcular());
             }
             hayOperacionBinaria = false;
-
-        }else{
-            if(!lblHistorial.getText().isEmpty()){
-                int nroValorActual = (int) valorActual;
-                String textDigitosValorActual = ""+nroValorActual;
-                int nroDigitosValorActual = textDigitosValorActual.length();
-                lblHistorial.setText(lblHistorial.getText().substring(0,lblHistorial.getText().length()-nroDigitosValorActual));
-            }
+        }
+        //en caso de operador unario
+        else {
             Operacion operacion = new Operacion(valorAnterior, operadorUnario, valorActual);
             System.out.println(operacion.operadorPorcentaje(operadorBinario));
 
-                pantalla.setText(""+operacion.operadorPorcentaje(operadorBinario));
-                lblHistorial.setText(lblHistorial.getText() + operacion.operadorPorcentaje(operadorBinario));
-                operadorUnario = "";
-
-
+            pantalla.setText("" + operacion.operadorPorcentaje(operadorBinario));
+            operadorUnario = "";
         }
-    }
-
-    @FXML
-    private void digitar(ActionEvent e){
-        if(banderaOperacionBinaria){
-            valorAnterior= Double.parseDouble(pantalla.getText());
-            pantalla.setText("0");
-            banderaOperacionBinaria =false;
-        }
-        Button btn = (Button) e.getSource();
-        String digito = btn.getText();
-        String txtPantalla = pantalla.getText();
-        if(digito.equals(".")){
-            if(puedeAgregarPunto())
-                pantalla.setText(txtPantalla+".");
-        }
-        else {
-            if(esCeroInicial())
-                pantalla.setText(digito);
-            else
-                pantalla.setText(txtPantalla + digito);
-        }
-        signoBinarioActivo = false;
-        lblHistorial.setText(lblHistorial.getText()+digito);
     }
 
     @FXML
     private void borrarUltimoDigito(){
-        if(Integer.parseInt(pantalla.getText()) != 0){
+        if(Double.parseDouble(pantalla.getText()) != 0){
             pantalla.setText(pantalla.getText().substring(0, pantalla.getText().length()-1));
             if(pantalla.getText().isEmpty())
-                pantalla.setText("0");
+                pantalla.setText(CERO);
         }
     }
 
@@ -138,6 +137,6 @@ public class Controlador {
         return !pantalla.getText().contains(".");
     }
     private boolean esCeroInicial(){
-        return pantalla.getText().equals("0");
+        return pantalla.getText().equals(CERO);
     }
 }

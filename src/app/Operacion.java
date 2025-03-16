@@ -11,18 +11,28 @@ public class Operacion {
         this.num2 = num2;
     }
 
-    public Double calcular(){
+    public String calcular(){
 
         if(signo.equals("+"))
-            return num1+num2;
+            return formatearResultado(num1+num2);
         else if(signo.equals("-"))
-            return num1-num2;
+            return formatearResultado(num1-num2);
         else if(signo.equals("x"))
-            return num1*num2;
+            return formatearResultado(num1*num2);
 
-        return num1/num2;
+        return formatearResultado(num1/num2);
 
     }
+
+    public static String formatearResultado(double resultado) {
+        if (resultado == (long) resultado) {
+            return String.format("%d", (long) resultado); // sin decimales
+        } else {
+            return String.valueOf(resultado); // con decimales
+        }
+    }
+
+
 
     public Double operadorPorcentaje(String signoBinario){
         System.out.println(signoBinario+" "+ num1 + " " + num2);
@@ -31,9 +41,15 @@ public class Operacion {
         else return num2/100;
     }
 
-    public static boolean isOperadorBinario(String signo){
+    public static boolean isOperadorUnario(String signo){
         if(signo.equals("%"))  return true;
         return false;
+    }
+
+    public static int contarDigitos(double numero){
+        int nroValorActual = (int) numero;
+        String textDigitosValorActual = ""+nroValorActual;
+        return textDigitosValorActual.length();
     }
 
 }

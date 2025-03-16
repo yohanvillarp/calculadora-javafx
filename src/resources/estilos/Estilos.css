@@ -28,6 +28,16 @@
     -fx-background-color: #4a4a4a;
 }
 
+.btn-igual{
+    -fx-text-fill: black;
+    -fx-background-color: #4C9EFF;
+}
+
+.btn-igual:hover{
+    -fx-background-color: #3687E3;
+}
+
+
 .button:pressed {
     -fx-background-color: #606060;
 }
