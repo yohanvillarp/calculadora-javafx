@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="app.Controlador"
+      spacing="10" alignment="center" stylesheets="@../resources/estilos/Estilos.css"
+      prefWidth="400" prefHeight="500"
+      >
+
+      <Label fx:id="lblHistorial" alignment="CENTER_RIGHT" />
+
+      <TextField fx:id="pantalla" text="0" editable="false" focusTraversable="false"/>
+
+      <GridPane hgap="5" vgap="5" alignment="CENTER" VBox.vgrow="ALWAYS">
+
+            <Button fx:id="btnPorcentaje" GridPane.rowIndex="0" GridPane.columnIndex="0" onAction="#definirOperacion"/>
+            <Button text="CE" GridPane.rowIndex="0" GridPane.columnIndex="1" onAction="#clearEntry"/>
+            <Button text="C" GridPane.rowIndex="0" GridPane.columnIndex="2" onAction="#clear"/>
+            <Button text="&lt;-" GridPane.rowIndex="0" GridPane.columnIndex="3" onAction="#borrarUltimoDigito" />
+
+            <Button text="7" GridPane.rowIndex="1" GridPane.columnIndex="0" onAction="#digitar"/>
+            <Button text="8" GridPane.rowIndex="1" GridPane.columnIndex="1" onAction="#digitar"/>
+            <Button text="9" GridPane.rowIndex="1" GridPane.columnIndex="2" onAction="#digitar"/>
+            <Button text="/" GridPane.rowIndex="1" GridPane.columnIndex="3" onAction="#definirOperacion"/>
+
+            <Button text="4" GridPane.rowIndex="2" GridPane.columnIndex="0" onAction="#digitar"/>
+            <Button text="5" GridPane.rowIndex="2" GridPane.columnIndex="1" onAction="#digitar"/>
+            <Button text="6" GridPane.rowIndex="2" GridPane.columnIndex="2" onAction="#digitar"/>
+            <Button text="x" GridPane.rowIndex="2" GridPane.columnIndex="3" onAction="#definirOperacion"/>
+
+            <Button text="1" GridPane.rowIndex="3" GridPane.columnIndex="0" onAction="#digitar"/>
+            <Button text="2" GridPane.rowIndex="3" GridPane.columnIndex="1" onAction="#digitar"/>
+            <Button text="3" GridPane.rowIndex="3" GridPane.columnIndex="2" onAction="#digitar"/>
+            <Button text="-" GridPane.rowIndex="3" GridPane.columnIndex="3" onAction="#definirOperacion"/>
+
+            <Button text="0" GridPane.rowIndex="4" GridPane.columnIndex="0" onAction="#digitar"/>
+            <Button text="." GridPane.rowIndex="4" GridPane.columnIndex="1" onAction="#digitar"/>
+            <Button text="=" GridPane.rowIndex="4" GridPane.columnIndex="2" onAction="#calcularResultado"/>
+            <Button text="+" GridPane.rowIndex="4" GridPane.columnIndex="3" onAction="#definirOperacion"/>
+
+
+      </GridPane>
+
+
+</VBox>
